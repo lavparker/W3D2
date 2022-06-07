@@ -9,10 +9,18 @@ class Board
     @grid = Array.new(size) {Array.new(size) }
   end
 
+  attr_reader :size
+
   def [](pos)
     row, col = pos
-    @grid[row, col]
+    @grid[row][col]
   end
+
+  def []=(pos, newz)
+    row, col = pos
+    @grid[row][col] = newz
+  end
+
 
   def factory
     card_arr = []
@@ -49,14 +57,15 @@ class Board
   end
 
   def flip(pos)
-    @grid[pos].reveal
-    @grid[pos].face_value
+    self[pos].reveal
+    self[pos].face_value
   end 
+
 
 end
 
-abc = Board.new(4)
-abc.populate
-abc.render
-# p abc.won?
-p abc.flip([0,0])
+# abc = Board.new(4)
+# abc.populate
+# abc.render
+# # p abc.won?
+# p abc.flip([0,0])
