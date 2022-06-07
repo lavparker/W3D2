@@ -32,8 +32,13 @@ class Board
         
 
   def populate
-    cards = factory
-    cards += cards
+    cards1 = factory
+    cards = []
+    cards1.each do |card_inst|
+      cards << Card.new(card_inst.face_value)
+    end
+    cards += cards1
+  
     shuffled = cards.shuffle
     @grid.each do |subarr|
       subarr.each_with_index do |ele, idx|
@@ -42,6 +47,34 @@ class Board
     end
     # p @grid
   end
+
+  def hidden 
+    @hidden_grid = []
+    @grid.each do |subArr|
+      arr = [] 
+      subArr.each do |ele|
+        if ele.face_up
+          arr << ele.face_value
+        else
+          arr << " "
+        end
+      end
+      @hidden_grid << arr 
+    end
+    @hidden_grid
+  end
+
+  def render_hidden
+    @hidden_grid.each do |subarr|
+      subarr.each_with_index do |ele, idx|
+        p ele 
+        if ele != " "
+          subarr[idx] = ele.face_value
+        end
+      end
+    end
+  end
+
 
   def render
     @grid.each do |subarr|
@@ -64,8 +97,11 @@ class Board
 
 end
 
-# abc = Board.new(4)
-# abc.populate
+abc = Board.new(4)
+abc.populate
+abc.hidden
 # abc.render
 # # p abc.won?
-# p abc.flip([0,0])
+
+abc.flip([0,0])
+abc.render_hidden
