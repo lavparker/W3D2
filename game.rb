@@ -5,26 +5,31 @@ require_relative "human_player.rb"
 class Game
   def initialize(name, size=6)
     @board = Board.new(size)
+    @board.populate
     @previously_guessed_position = []
     @player = HumanPlayer.new(name)
   end
 
   def valid_guess?
     guess = @player.get_input
-    board_size = @board.size ** (1/2)
+    p @board.size
+    p Math.sqrt(@board.size)
+    board_size = Math.sqrt(@board.size)
     guess.each do |idx| 
+      # p idx
+      # p board_size
       if idx > (board_size - 1) || idx < 0
         puts "index out of board"
+        # p "#{guess} + !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
         valid_guess?
       end
     end
     return guess
   end
 
-  def one_turn
-    @previously_guessed_position = self.valid_guess? 
+  def one_turn_a
+    @previously_guessed_position = self.valid_guess?
     @board[@previously_guessed_position].reveal
-
     new_guess = self.valid_guess?
     @board[new_guess].reveal
     if @board[new_guess] != @board[@previously_guessed_position]
@@ -34,9 +39,15 @@ class Game
     end
   end
 
-
-
-
+  def play
+    tf = false
+    while !false
+      self.one_turn_a
+      if @board.won?
+        tf = true
+        puts "YOU WON!!!!!!!!!!!!!"
+      end
+    end
   end
 
 
@@ -50,4 +61,4 @@ class Game
 end
 
 abc = Game.new("Bob")
-p abc.valid_guess?
+abc.play

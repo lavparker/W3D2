@@ -1,3 +1,5 @@
+require "byebug"
+
 class HumanPlayer
   def initialize(name)
     @name = name

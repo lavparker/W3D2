@@ -18,10 +18,6 @@ class Card
     @face_value.to_s
   end
 
-  def ==
-
-  end
-
   def self.random
     alphabet = "abcdefghikklmnopqrstuvwxyz".upcase
     random_letter = alphabet.split("").sample
