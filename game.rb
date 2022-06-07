@@ -18,7 +18,25 @@ class Game
         valid_guess?
       end
     end
-    return true
+    return guess
+  end
+
+  def one_turn
+    @previously_guessed_position = self.valid_guess? 
+    @board[@previously_guessed_position].reveal
+
+    new_guess = self.valid_guess?
+    @board[new_guess].reveal
+    if @board[new_guess] != @board[@previously_guessed_position]
+      @board[new_guess].hide 
+      @board[@previously_guessed_position].hide
+      @previously_guessed_position = []
+    end
+  end
+
+
+
+
   end
 
 
