@@ -94,6 +94,9 @@ class Board
     self[pos].face_value
   end 
 
+  def test
+    p "test"
+  end
 
 end
 
