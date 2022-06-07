@@ -7,6 +7,7 @@ class Board
       raise "size must be an even number"
     end
     @grid = Array.new(size) {Array.new(size) }
+    @hidden_grid = Array.new(size) { Array.new(size, " ")}
   end
 
   attr_reader :size
@@ -48,37 +49,15 @@ class Board
     # p @grid
   end
 
-  def hidden 
-    @hidden_grid = []
-    @grid.each do |subArr|
-      arr = [] 
-      subArr.each do |ele|
-        if ele.face_up
-          arr << ele.face_value
-        else
-          arr << " "
-        end
-      end
-      @hidden_grid << arr 
+  def render
+    @grid.each do |subarr|
+      p subarr.map { |ele| ele.face_value }
     end
-    @hidden_grid
   end
 
   def render_hidden
     @hidden_grid.each do |subarr|
-      subarr.each_with_index do |ele, idx|
-        p ele 
-        if ele != " "
-          subarr[idx] = ele.face_value
-        end
-      end
-    end
-  end
-
-
-  def render
-    @grid.each do |subarr|
-      p subarr.map { |ele| ele.face_value }
+      p subarr.map { |ele| ele }
     end
   end
 
@@ -90,21 +69,24 @@ class Board
   end
 
   def flip(pos)
-    self[pos].reveal
+    if !self[pos].face_up
+      self[pos].reveal
+      @hidden_grid[pos[0]][pos[1]] = self[pos].face_value
+    else
+      self[pos].hide
+      @hidden_grid[pos[0]][pos[1]] = " "
+    end
     self[pos].face_value
   end 
 
-  def test
-    p "test"
-  end
-
 end
 
-abc = Board.new(4)
-abc.populate
-abc.hidden
-# abc.render
-# # p abc.won?
+# abc = Board.new(4)
+# abc.populate
+# abc.hidden
+# # abc.render
+# # # p abc.won?
 
-abc.flip([0,0])
-abc.render_hidden
+# abc.flip([0,0])
+# p abc.hidden_grid
+# abc.render_hidden

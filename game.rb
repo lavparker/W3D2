@@ -29,12 +29,13 @@ class Game
 
   def one_turn_a
     @previously_guessed_position = self.valid_guess?
-    @board[@previously_guessed_position].reveal
+    @board.flip(@previously_guessed_position)
+    @board.render_hidden
     new_guess = self.valid_guess?
-    @board[new_guess].reveal
+    @board.flip(new_guess)
     if @board[new_guess] != @board[@previously_guessed_position]
-      @board[new_guess].hide 
-      @board[@previously_guessed_position].hide
+      @board.flip(new_guess)
+      @board.flip(@previously_guessed_position)
       @previously_guessed_position = []
     end
   end
